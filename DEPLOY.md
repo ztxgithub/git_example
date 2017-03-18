@@ -8,9 +8,7 @@
 ```	
 > ### 操作系统环境
 ```bash
-
 	CentOS7
-	
 ```
 > ### 新建系统用户 yytd 统一管理SEngine,Emqtt.
 ```bash
