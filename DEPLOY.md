@@ -7,7 +7,7 @@
 - SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
 	
 > ## 操作系统环境
-	- CentOS7
+- CentOS7
 > ## 新建系统用户 yytd 统一管理SEngine,Emqtt.
 ```bash
 useradd yytd -m 
@@ -37,7 +37,7 @@ enabled=1
 ```bash
 sudo yum install -y mongodb-org
 ```
- -Disable SELinux by setting the SELINUX setting to disabled in /etc/selinux/config.
+- Disable SELinux by setting the SELINUX setting to disabled in /etc/selinux/config.
  ```bash
 SELINUX=disabled
 ```
