@@ -2,21 +2,21 @@
 ==================================================
 
 --------------------------------------
-> ##子系统部署
+> ## 子系统部署
 	-SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
-> ##操作系统环境
+> ## 操作系统环境
 	-CentOS7
-> ##新建系统用户 yytd 统一管理SEngine,Emqtt.
+> ## 新建系统用户 yytd 统一管理SEngine,Emqtt.
 ```bash
 useradd yytd -m 
 ```
 
-> ##mongoDB
+> ## mongoDB
 mongoDB-3.2
         
-> ###安装步骤
+> ### 安装步骤
 
-> ####创建yum源
+> #### 创建yum源
 ```bash
 cd /etc/yum.repos.d/
 vi mongodb-org-3.2.repo
