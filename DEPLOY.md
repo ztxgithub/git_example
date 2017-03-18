@@ -3,9 +3,9 @@
 
 --------------------------------------
 > ## 子系统部署
-
+```bash
 	SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
-
+```	
 > ### 操作系统环境
 ```bash
 	CentOS7
@@ -95,28 +95,6 @@
 
 > ### 配置supervisor为系统服务
 
-- vim /lib/systemd/system/supervisord.service
-
-- supervisord.service内容
-```bash
-
-	[Unit]
-	Description=Process Monitoring and Control Daemon
-	After=rc-local.service
-	
-	[Service]
-	Type=forking
-	ExecStart=/usr/bin/supervisord -c /etc/supervisord.conf
-	SysVStartPriority=99
-	
-	LimitCORE=infinity
-	LimitNOFILE= 65535
-	LimitNPROC= 65535
-	
-	[Install]
-	WantedBy=multi-user.target
-	
-```
 > ### 生成supervisord.conf
 ```bash
 
@@ -232,3 +210,82 @@
 
 ```
 
+> #### 设置supervisord开机自启
+- sudo vi /etc/rc.d/init.d/supervisord 
+```bash
+
+	#!/bin/sh
+	#
+	# /etc/rc.d/init.d/supervisord
+	#
+	# Supervisor is a client/server system that
+	# allows its users to monitor and control a
+	# number of processes on UNIX-like operating
+	# systems.
+	#
+	# chkconfig: - 64 36
+	# description: Supervisor Server
+	# processname: supervisord
+	
+	# Source init functions
+	. /etc/rc.d/init.d/functions
+	
+	prog="supervisord"
+	
+	prefix="/usr/"
+	exec_prefix="${prefix}"
+	prog_bin="${exec_prefix}/bin/supervisord"
+	PIDFILE="/var/run/$prog.pid"
+	
+	start()
+	{
+		echo -n $"Starting $prog: "
+		daemon $prog_bin --pidfile $PIDFILE -c /etc/supervisord.conf
+		[ -f $PIDFILE ] && success $"$prog startup" || failure $"$prog startup"
+		echo
+	}
+	
+	stop()
+	{
+		echo -n $"Shutting down $prog: "
+		[ -f $PIDFILE ] && killproc $prog || success $"$prog shutdown"
+		echo
+	}
+	
+	case "$1" in
+	
+	start)
+	start
+	;;
+	
+	stop)
+	stop
+	;;
+	
+	status)
+		status $prog
+	;;
+	
+	restart)
+	stop
+	start
+	;;
+	
+	*)
+	echo "Usage: $0 {start|stop|restart|status}"
+	;;
+	
+	esac
+	
+```
+(在Windows上编辑这内容有出现^M回车符，linux脚本识别不了该命令，可以用sed -i -e 's/\r//g' /etc/init.d/supervisord 命令去掉^M回车符)
+
+- 执行以下命令
+```bash
+
+sudo chmod +x /etc/rc.d/init.d/supervisord
+sudo chkconfig --add supervisord
+sudo chkconfig supervisord on
+sudo service supervisord start
+
+```
