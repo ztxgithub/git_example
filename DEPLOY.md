@@ -1,21 +1,22 @@
 各个系统环境部署
 ==================================================
 
-##子系统部署
-SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
-###操作系统环境
-        CentOS7
-新建系统用户 yytd 统一管理SEngine,Emqtt.
+--------------------------------------
+> ##子系统部署
+	-SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
+> ##操作系统环境
+	-CentOS7
+> ##新建系统用户 yytd 统一管理SEngine,Emqtt.
 ```bash
 useradd yytd -m 
 ```
 
-###mongoDB
+> ##mongoDB
 mongoDB-3.2
         
-####安装步骤
+> ###安装步骤
 
-1.创建yum源
+> ####创建yum源
 ```bash
 cd /etc/yum.repos.d/
 vi mongodb-org-3.2.repo
@@ -30,14 +31,15 @@ gpgcheck=0
 enabled=1
 ```
 
-2.yum 安装mongoDB
+> #### yum 安装mongoDB
 ```bash
 sudo yum install -y mongodb-org
-
-Disable SELinux by setting the SELINUX setting to disabled in /etc/selinux/config.
-SELINUX=disabled
-
 ```
+ -Disable SELinux by setting the SELINUX setting to disabled in /etc/selinux/config.
+ ```bash
+SELINUX=disabled
+```
+
 参考:https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/
 
 ###Emqttd
