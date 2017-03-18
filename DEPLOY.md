@@ -6,15 +6,16 @@
 
 - SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
 	
-> ## 操作系统环境
+> ### 操作系统环境
 - CentOS7
-> ## 新建系统用户 yytd 统一管理SEngine,Emqtt.
+> ### 新建系统用户 yytd 统一管理SEngine,Emqtt.
 ```bash
 useradd yytd -m 
 ```
 
 > ## mongoDB
-mongoDB-3.2
+> ### mongoDB版本号
+   mongoDB-3.2
         
 > ### 安装步骤
 
@@ -60,21 +61,21 @@ cd /home/yytd
 unzip emqttd-centos64-v2.0-beta.3-20160918.zip
 ```
 
-###Supervisor
-1.安装python-pip python包管理工具
+> ## Supervisor
+> ### 下载并安装supervisor
+- [Supervisor安装包下载](https://pypi.python.org/pypi/supervisor)
+- 安装supervisor
 ```bash
-sudo yum install python-pip
+tar -xvf supervisor-x.x.x.tar.gz
+cd supervisor-x.x.x/
+sudo python setup.py install   
 ```
-2.安装supervisor
-```bash
-sudo pip install supervisor
-yum -y install supervisor
-```
-3.配置supervisor为系统服务
-```bash
-vim /lib/systemd/system/supervisord.service
-```
-supervisord.service内容
+
+> ### 配置supervisor为系统服务
+
+- vim /lib/systemd/system/supervisord.service
+
+- supervisord.service内容
 ```bash
 [Unit]
 Description=Process Monitoring and Control Daemon
@@ -92,19 +93,27 @@ LimitNPROC= 65535
 [Install]
 WantedBy=multi-user.target
 ```
-
-4.修改supervisord.conf
+> ### 生成supervisord.conf
 ```bash
+
+echo_supervisord_conf > /etc/supervisord.conf
+
+```
+
+> ### 修改supervisord.conf
+```bash
+
 [include]
 files = /etc/supervisor/*.conf
+
 ```
-5.supeivisor配置各子系统
+> ### supeivisor配置各子系统
 ```bash
 mkdir /etc/supervisor
 cd /etc/supervisor
 vi yytd.conf
 ```
-yytd.conf内容
+- yytd.conf内容
 ```bash
 [program:emqttd]
 directory = /yytd/emqttd/bin/
@@ -181,12 +190,12 @@ stdout_logfile_backups = 20     ; stdout 日志文件备份数
 stdout_logfile = /yytd/logs/sengine/sc_stdout.log
 
 ```
-6.supeivisord服务开启
+> #### supeivisord服务开启
 ```bash
 systemctl enable supervisord.service
 systemctl start/restart/stop supervisord.service
 ```
-7.supervisor开启子系统
+> #### supervisor开启子系统
 ```bash
 supervisorctl start/stop/restart sc
 supervisorctl start/stop/restart emqttd
