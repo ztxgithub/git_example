@@ -37,9 +37,15 @@ enabled=1
 ```bash
 sudo yum install -y mongodb-org
 ```
+
 - Disable SELinux by setting the SELINUX setting to disabled in /etc/selinux/config.
- ```bash
+```bash
 SELINUX=disabled
+```
+
+- MongoDB服务开机自启
+```bash
+sudo chkconfig mongod on
 ```
 
 参考:https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/
