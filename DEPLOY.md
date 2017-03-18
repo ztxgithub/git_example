@@ -50,10 +50,11 @@ sudo chkconfig mongod on
 
 参考:https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/
 
-###Emqttd
-安装包下载:http://emqtt.com/downloads
 
-下载完成后解压至/yytd/
+> ## Emqttd
+- [Emqttd安装包下载](http://emqtt.com/downloads)
+
+- 下载完成后解压至/yytd/
 ```bash
 cd /home/yytd
 unzip emqttd-centos64-v2.0-beta.3-20160918.zip
