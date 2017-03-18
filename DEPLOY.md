@@ -4,7 +4,7 @@
 --------------------------------------
 > ## 子系统部署
 
-	- SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
+- SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
 	
 > ## 操作系统环境
 	- CentOS7
