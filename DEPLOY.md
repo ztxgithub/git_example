@@ -111,6 +111,7 @@
 ```
 > ### supeivisor配置各子系统
 ```bash
+	mkdir -p /home/yytd/logs/emqttd/
 	
 	mkdir /etc/supervisor
 	cd /etc/supervisor
@@ -121,8 +122,8 @@
 ```bash
 	
 	[program:emqttd]
-	directory = /yytd/emqttd/bin/
-	command = /yytd/emqttd/bin/emqttd console
+	directory = /home/yytd/emqttd/bin/
+	command = /home/yytd/emqttd/bin/emqttd console
 	priority = 9
 	autostart = true
 	startsecs = 3
@@ -132,7 +133,7 @@
 	redirect_stderr = true
 	stdout_logfile_maxbytes = 100MB
 	stdout_logfile_backups = 20
-	stdout_logfile = /yytd/logs/emqttd/emqttd_stdout.log
+	stdout_logfile = /home/yytd/logs/emqttd/emqttd_stdout.log
 	environment = HOME=/home/yytd
 	
 	[program:mongod]
