@@ -119,9 +119,10 @@
 	vi yytd.conf
 
 ```
-   yytd.conf内容
+  
 ```bash
-	
+	yytd.conf内容:
+	 
 	[program:emqttd]
 	directory = /home/yytd/emqttd/bin/
 	command = /home/yytd/emqttd/bin/emqttd console
