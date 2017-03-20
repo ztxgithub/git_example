@@ -156,8 +156,8 @@
 	yytd.conf内容:
 	 
 	[program:sengine]
-	directory = /yytd/sengine/ ; 程序的启动目录
-	command = /yytd/sengine/sengine  ; 启动命令，可以看出与手动在命令行启动的命令是一样的
+	directory = /home/yytd/sengine/ ; 程序的启动目录
+	command = /home/yytd/sengine/sengine  ; 启动命令，可以看出与手动在命令行启动的命令是一样的
 	priority = 8
 	autostart = true     ; 在 supervisord 启动的时候也自动启动
 	startsecs = 3        ; 启动 5 秒后没有异常退出，就当作已经正常启动了
