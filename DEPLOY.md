@@ -81,6 +81,56 @@
 
 ```
 
+> ## SEngine 
+> ### 创建sengine运行环境
+
+> #### 创建sengine运行目录
+```bash
+
+	mkdir -p /home/yytd/sengine/
+	
+```
+
+> #### 创建sengine运行时配置文件
+```bash
+
+    vi /home/yytd/sengine/sengine.config
+	
+	<?xml version="1.0" encoding="utf-8" ?>
+    <Config>
+	<BROKERIP>127.0.0.1:1883</BROKERIP>
+	<SENGINEID>Sengine_test</SENGINEID>
+	<SCLOUDID>Scloud_test</SCLOUDID>
+	<DBURI>mongodb://test:YYtd_test@192.168.0.4:27017/scloud-test</DBURI>
+	<DATABASENAME>scloud-test</DATABASENAME>
+	<POLLING_UNIT_INTERVAL>60</POLLING_UNIT_INTERVAL>
+	<LOGOUT_OVERTIME_THRESHOLD>180</LOGOUT_OVERTIME_THRESHOLD>
+	<MQTT_KEEP_ALIVE_INTERVAL>60</MQTT_KEEP_ALIVE_INTERVAL>
+	<MIN_LOG_LEVEL>ELOG_LVL_VERBOSE</MIN_LOG_LEVEL>
+    </Config>
+
+```
+> #### 准备sengine运行时需要的动态链接库
+- 动态库列表
+```bash
+
+        libpaho-mqtt3a.so
+        libboost_serialization.so
+        libbsoncxx.so
+        libmongocxx.so
+        libgtest.a
+
+```
+- 将上述动态链接库拷到 /usr/local/lib/ 目录下
+- 设置好相关动态链接库
+```bash
+    1.vi /etc/ld.so.conf
+	内容为： /usr/local/lib/
+	
+	2.ldconfig
+	
+```
+
 > ## Supervisor
 > ### 下载并安装supervisor
 - [Supervisor安装包下载](https://pypi.python.org/pypi/supervisor)
