@@ -125,7 +125,7 @@
 - 设置好相关动态链接库
 ```bash
     1.vi /etc/ld.so.conf
-	内容为： /usr/local/lib/
+    内容为： /usr/local/lib/
 	
 	2.ldconfig
 	
