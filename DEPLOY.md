@@ -127,7 +127,7 @@
     1.vi /etc/ld.so.conf
     内容为： /usr/local/lib/
 	
-	2.ldconfig
+    2.ldconfig
 	
 ```
 
