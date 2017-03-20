@@ -119,7 +119,7 @@
 	vi yytd.conf
 
 ```
-- yytd.conf内容
+   yytd.conf内容
 ```bash
 	
 	[program:emqttd]
