@@ -110,6 +110,7 @@
 
 ```
 > ### supeivisor配置各子系统
+> #### supeivisor配置emqttd
 ```bash
 	mkdir -p /home/yytd/logs/emqttd/
 	
@@ -136,64 +137,6 @@
 	stdout_logfile = /home/yytd/logs/emqttd/emqttd_stdout.log
 	environment = HOME=/home/yytd
 	
-	[program:mongod]
-	directory = /usr/bin/
-	command = /usr/bin/mongod -f /etc/mongod.conf
-	priority = 9
-	autostart = true
-	startsecs = 3
-	autorestart = true
-	startretries = 3
-	user = mongod
-	redirect_stderr = true
-	stdout_logfile_maxbytes = 100MB
-	stdout_logfile_backups = 20
-	stdout_logfile = /yytd/logs/mongodb/mongodb_stdout.log
-	
-	[program:nginx]
-	directory = /yytd/server/nginx/sbin/
-	command = /yytd/server/nginx/sbin/nginx
-	priority = 7
-	autostart = true
-	startsecs = 3
-	autorestart = true
-	startretries = 3
-	user = root
-	redirect_stderr = true
-	stdout_logfile_maxbytes = 100MB
-	stdout_logfile_backups = 20
-	stdout_logfile = /yytd/logs/nginx/nginx_stdout.log
-	
-	[program:tomcat1]
-	directory = /yytd/server/tomcat1/bin/
-	command = /yytd/server/tomcat1/bin/catalina.sh run
-	priority = 6
-	autostart = true
-	startsecs = 5
-	autorestart = true
-	startretries = 3
-	user = yytd
-	redirect_stderr = true
-	stdout_logfile_maxbytes = 100MB
-	stdout_logfile_backups = 20
-	stdout_logfile = /yytd/logs/tomcat1/tomcat1_stdout.log
-	environment = JAVA_HOME=/yytd/jdk1.8
-	
-	[program:sc]
-	directory = /yytd/sengine/ ; 程序的启动目录
-	command = /yytd/sengine/sengine  ; 启动命令，可以看出与手动在命令行启动的命令是一样的
-	priority = 8
-	autostart = true     ; 在 supervisord 启动的时候也自动启动
-	startsecs = 3        ; 启动 5 秒后没有异常退出，就当作已经正常启动了
-	autorestart = true   ; 程序异常退出后自动重启
-	;autorestart = false   ; 程序异常退出后自动重启
-	startretries = 3     ; 启动失败自动重试次数，默认是 3
-	user = yytd          ; 用哪个用户启动
-	redirect_stderr = true  ; 把 stderr 重定向到 stdout，默认 false
-	stdout_logfile_maxbytes = 20MB  ; stdout 日志文件大小，默认 50MB
-	stdout_logfile_backups = 20     ; stdout 日志文件备份数
-	; stdout 日志文件，需要注意当指定目录不存在时无法正常启动，所以需要手动创建目录（supervisord 会自动创建日志文件）
-	stdout_logfile = /yytd/logs/sengine/sc_stdout.log
 
 ```
 > #### supeivisord服务开启
