@@ -3,22 +3,38 @@
 
 --------------------------------------
 > ## 子系统部署
+
 ```bash
+
 	SEngine依赖子系统数据库mongoDB,broker服务器Emqtt.所有子系统及SEngine由进程管理工具Supervisor统一管理
-```	
-> ### 操作系统环境
-```bash
-	CentOS7
+
 ```
+
+> ### 操作系统环境
+
+```bash
+	CentOs
+
+```
+
 > ### 新建系统用户 yytd 统一管理SEngine,Emqtt.
+
 ```bash
 
 	useradd yytd -m 
 
 ```
 
+- 关掉防火墙
+
+```
+	systemctl stop firewalld (关闭防火墙)
+	systemctl disable firewalld （禁用防火墙,开机不启动）
+```
+
 > ## mongoDB
 > ### mongoDB版本号
+
 ```bash
 
 	mongoDB-3.2
@@ -28,12 +44,14 @@
 > ### 安装步骤
 
 > #### 创建yum源
+
 ```bash
 
 	cd /etc/yum.repos.d/
 	vi mongodb-org-3.2.repo
 
 ```
+
 - mongodb-org-3.2.repo内容
 
 ```bash
@@ -47,6 +65,7 @@
 ```
 
 > #### yum 安装mongoDB
+
 ```bash
 
 	sudo yum install -y mongodb-org
@@ -54,6 +73,7 @@
 ```
 
 - Disable SELinux by setting the SELINUX setting to disabled in /etc/selinux/config.
+
 ```bash
 
 	SELINUX=disabled
@@ -61,30 +81,58 @@
 ```
 
 - MongoDB服务开机自启
+
 ```bash
 
 	sudo chkconfig mongod on
 	
 ```
 
+- 设置MongoDB的配置文件/etc/mongod.conf
+
+```
+
+	# network interfaces
+	net:
+	port: 27017
+	#  bindIp: 127.0.0.1  # Listen to local interface only, comment to listen on all interfaces.
+
+```
+
 参考:https://docs.mongodb.com/master/tutorial/install-mongodb-on-red-hat/
 
 
 > ## Emqttd
+
 - [Emqttd安装包下载](http://emqtt.com/downloads)
 
 - 下载完成后解压至/yytd/
-```bash
+
+```
 
 	cd /home/yytd
 	unzip emqttd-centos64-v2.0-beta.3-20160918.zip
 
 ```
 
+- 修改/home/yytd/emqttd/etc/emq.conf 配置文件
+
+```
+	log.console = file
+	log.console.level = info
+	mqtt.max_packet_size = 10MB
+	mqtt.session.max_inflight = 0
+	mqtt.plugins.etc_dir = etc/plugins/
+	## mqtt.listener.tcp.recbuf = 4096 
+	mqtt.listener.ssl.max_clients = 1024
+```
+
 > ## SEngine 
+
 > ### 创建sengine运行环境
 
 > #### 创建sengine运行目录
+
 ```bash
 
 	mkdir -p /home/yytd/sengine/
@@ -92,6 +140,7 @@
 ```
 
 > #### 创建sengine运行时配置文件
+
 ```bash
 
     vi /home/yytd/sengine/sengine.config
@@ -111,7 +160,9 @@
 
 ```
 > #### 准备sengine运行时需要的动态链接库
+
 - 动态库列表
+
 ```bash
 
         libpaho-mqtt3a.so
@@ -121,8 +172,11 @@
         libgtest.a
 
 ```
+
 - 将上述动态链接库拷到 /usr/local/lib/ 目录下
+
 - 设置好相关动态链接库
+
 ```bash
     1.vi /etc/ld.so.conf
     内容为： /usr/local/lib/
@@ -132,9 +186,13 @@
 ```
 
 > ## Supervisor
+
 > ### 下载并安装supervisor
+
 - [Supervisor安装包下载](https://pypi.python.org/pypi/supervisor)
+
 - 安装supervisor
+
 ```bash
 
 	tar -xvf supervisor-x.x.x.tar.gz
@@ -146,6 +204,7 @@
 > ### 配置supervisor为系统服务
 
 > ### 生成supervisord.conf
+
 ```bash
 
 	echo_supervisord_conf > /etc/supervisord.conf
@@ -153,15 +212,18 @@
 ```
 
 > ### 修改supervisord.conf
+
 ```bash
 
 	[include]
 	files = /etc/supervisor/*.conf
 
 ```
+
 > ### supeivisor配置各子系统
 
 > #### supeivisor配置emqttd
+
 ```bash
 	mkdir -p /home/yytd/logs/emqttd/
 	
@@ -193,7 +255,9 @@
 ```
 
 > #### supeivisor配置sengine
+
 ```bash
+
 	mkdir -p /home/yytd/logs/sengine/
 	
 	mkdir /etc/supervisor
@@ -203,6 +267,7 @@
 ```
   
 ```bash
+
 	yytd.conf内容:
 	 
 	[program:sengine]
@@ -225,13 +290,16 @@
 ```
 
 > #### supeivisord服务开启
+
 ```bash
 	
 	systemctl enable supervisord.service
 	systemctl start/restart/stop supervisord.service
 
 ```
+
 > #### supervisor开启子系统
+
 ```bash
 	
 	supervisorctl start/stop/restart sc
@@ -240,7 +308,9 @@
 ```
 
 > #### 设置supervisord开机自启
+
 - sudo vi /etc/rc.d/init.d/supervisord 
+
 ```bash
 
 	#!/bin/sh
@@ -307,9 +377,11 @@
 	esac
 	
 ```
+
 (在Windows上编辑这内容有出现^M回车符，linux脚本识别不了该命令，可以用sed -i -e 's/\r//g' /etc/init.d/supervisord 命令去掉^M回车符)
 
 - 执行以下命令
+
 ```bash
 
 sudo chmod +x /etc/rc.d/init.d/supervisord
